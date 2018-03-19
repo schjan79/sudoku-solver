@@ -97,14 +97,4 @@ public class TestStates {
     }
 
 
-    public boolean isPrime(int x) {
-        if (x == 2) {
-            return true;
-        }
-        if (0 == x % 2) {
-            return false;
-        }
-        int max = int.class.cast(Math.sqrt(x));
-        return IntStream.iterate(3, i -> i <= max, i -> i + 2).noneMatch(i -> 0 == x % i);
-    }
 }
