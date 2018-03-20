@@ -12,7 +12,7 @@ import java.util.stream.StreamSupport;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(TimingExtension.class)
-public class TestStates {
+public class StatesTests {
     static Integer[] state_1 = {
             6, 2, null, 8, 9, 4, 1, 7, 3,
             3, 1, 4, 6, null, null, null, null, 9,
