@@ -2,7 +2,6 @@ package sch.sudoku.solver;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import lombok.Builder;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -10,7 +9,6 @@ import java.util.stream.IntStream;
 public class Model {
     private final Integer [] model;
 
-    @Builder.Default
     private final Deque<Command> commands = Lists.newLinkedList();
     private final List<View> views;
     private boolean[] isValid = { true };

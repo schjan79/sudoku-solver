@@ -1,14 +1,17 @@
 package sch.sudoku.solver;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.stream.IntStream;
+import java.util.Comparator;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(TimingExtension.class)
 public class TestStates {
     static Integer[] state_1 = {
             6, 2, null, 8, 9, 4, 1, 7, 3,
@@ -89,7 +92,14 @@ public class TestStates {
         System.out.println(model);
 
         // when
-        new Solver().solveModel(model);
+        new Solver(
+                // potential infinity loop ... :(
+//                views -> views.stream()
+//                        .filter(view -> view.countMissingValues() > 0)
+//                        .sorted(Comparator.comparingInt(View::countMissingValues))
+//                        .findFirst()
+//                        .get()
+        ).solveModel(model);
 
         // then
         assertTrue(model.isSolved());

@@ -4,8 +4,23 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 public class Solver {
+
+    public static Solver processFirst() {
+        return new Solver(Deque::peek);
+    }
+
+    private final Function<Deque<? extends View>, View> viewSelector;
+
+    public Solver() {
+        this(Deque::peek);
+    }
+
+    public Solver(Function<Deque<? extends View>, View> viewSelector) {
+        this.viewSelector = viewSelector;
+    }
 
     public void solveModel(Model model) {
         Deque<View> toProcess = new LinkedList<>();
@@ -15,7 +30,7 @@ public class Solver {
 
             if (model.isValid()) {
                 // forward step
-                View view = toProcess.peek();
+                View view = viewSelector.apply(toProcess);
                 if (view.hasMissingValues()) {
                     forwardStep(view);
                 } else {

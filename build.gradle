@@ -1,7 +1,17 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.+'
+    }
+}
+
 group 'sch'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 sourceCompatibility = 1.8
 
@@ -9,16 +19,36 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.0.2'
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.0.2'
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.0.2'
+    compile(
+            "com.google.guava:guava:+",
+            "org.slf4j:slf4j-api:1.7.+",
 
+            "ch.qos.logback:logback-classic:1.2.+",
+            "ch.qos.logback:logback-core:1.2.+"
 
-    // https://mvnrepository.com/artifact/org.projectlombok/lombok
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
+    )
 
-    compile group: 'com.google.guava', name: 'guava', version: '+'
+    testCompile(
+            "org.junit.jupiter:junit-jupiter-api:5.1.+",
+            "org.junit.jupiter:junit-jupiter-params:5.1.+"
+    )
+
+    testRuntime(
+            "org.junit.jupiter:junit-jupiter-engine:5.1.+",
+            "org.junit.platform:junit-platform-launcher:1.1.+"
+    )
+
+    compileOnly(
+            "org.projectlombok:lombok:1.16.+"
+    )
+
+    testCompileOnly(
+            "org.projectlombok:lombok:1.16.+"
+    )
 
 }
