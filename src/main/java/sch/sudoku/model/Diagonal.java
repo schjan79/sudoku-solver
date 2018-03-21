@@ -1,4 +1,4 @@
-package sch.sudoku.solver;
+package sch.sudoku.model;
 
 public class Diagonal extends View {
 

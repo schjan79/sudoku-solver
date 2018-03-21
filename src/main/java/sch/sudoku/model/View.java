@@ -1,6 +1,8 @@
-package sch.sudoku.solver;
+package sch.sudoku.model;
 
 import com.google.common.collect.Lists;
+import lombok.Data;
+import lombok.experimental.NonFinal;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.stream.IntStream;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.*;
 
+@lombok.Value
+@NonFinal
 public abstract class View implements IntFunction<Integer>, BiConsumer<Integer, Integer>, Comparable<View> {
 
     private final Model model;
@@ -21,11 +25,6 @@ public abstract class View implements IntFunction<Integer>, BiConsumer<Integer, 
     private Collection<View> siblings = Lists.newLinkedList();
 
     private final int startIndex = 0;
-
-    @java.beans.ConstructorProperties({"model"})
-    public View(Model model) {
-        this.model = model;
-    }
 
     public Collection<? extends View> getSiblings() {
         return siblings;
@@ -99,44 +98,6 @@ public abstract class View implements IntFunction<Integer>, BiConsumer<Integer, 
     @Override
     public int compareTo(View o) {
         return Integer.compare(countMissingValues(), o.countMissingValues());
-    }
-
-    public Model getModel() {
-        return this.model;
-    }
-
-    public int getStartIndex() {
-        return this.startIndex;
-    }
-
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof View)) return false;
-        final View other = (View) o;
-        if (!other.canEqual((Object) this)) return false;
-        final Object this$model = this.getModel();
-        final Object other$model = other.getModel();
-        if (this$model == null ? other$model != null : !this$model.equals(other$model)) return false;
-        final Object this$siblings = this.getSiblings();
-        final Object other$siblings = other.getSiblings();
-        if (this$siblings == null ? other$siblings != null : !this$siblings.equals(other$siblings)) return false;
-        if (this.getStartIndex() != other.getStartIndex()) return false;
-        return true;
-    }
-
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $model = this.getModel();
-        result = result * PRIME + ($model == null ? 43 : $model.hashCode());
-        final Object $siblings = this.getSiblings();
-        result = result * PRIME + ($siblings == null ? 43 : $siblings.hashCode());
-        result = result * PRIME + this.getStartIndex();
-        return result;
-    }
-
-    protected boolean canEqual(Object other) {
-        return other instanceof View;
     }
 
     public String toString() {
