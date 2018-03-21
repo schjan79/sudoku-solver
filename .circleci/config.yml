@@ -122,9 +122,9 @@ workflows:
     jobs:
       - build
       - test:
-        requeres:
-          - build
+          requeres:
+            - build
       - jar:
-        requires:
-          - test
+          requires:
+            - test
 
