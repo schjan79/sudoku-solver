@@ -86,7 +86,7 @@ public abstract class View implements IntFunction<Integer>, BiConsumer<Integer, 
         Map<Integer, Long> multipliciy = IntStream.range(0, 9)
                 .mapToObj(this)
                 .filter(Objects::nonNull)
-                .collect(Collectors.groupingBy(identity(), counting()));
+                .collect(groupingBy(identity(), counting()));
         return multipliciy.values().stream().allMatch(m -> m == 1);
     }
 
