@@ -72,7 +72,7 @@ public class StatesTests {
             null, null, null, null, 2, null, 6, null, 9,
     };
 
-    private static Stream<Arguments> getStates() {
+    protected static Stream<Arguments> getStates() {
         return Stream.of(
                 () -> new Object[] { false, state_1 },
                 () -> new Object[] { false, state_99 },
