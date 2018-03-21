@@ -1,5 +1,7 @@
 package sch.sudoku.solver;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import sch.sudoku.model.Model;
 import sch.sudoku.model.Value;
 import sch.sudoku.model.View;
@@ -12,11 +14,12 @@ import java.util.function.Function;
 
 public class Solver {
 
+    @Getter(AccessLevel.PRIVATE)
+    private final Function<Deque<? extends View>, View> viewSelector;
+
     public static Solver processFirst() {
         return new Solver(Deque::peek);
     }
-
-    private final Function<Deque<? extends View>, View> viewSelector;
 
     public Solver() {
         this(Deque::peek);
@@ -34,7 +37,7 @@ public class Solver {
 
             if (model.isValid()) {
                 // forward step
-                View view = viewSelector.apply(toProcess);
+                View view = getViewSelector().apply(toProcess);
                 if (view.hasMissingValues()) {
                     forwardStep(view);
                 } else {
