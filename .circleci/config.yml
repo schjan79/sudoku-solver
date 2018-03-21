@@ -33,13 +33,14 @@ jobs:
 
       - run: ./gradlew dependencies --no-daemon
 
+      # run compileJava!
+      - run: ./gradlew compileJava --info --no-daemon
+
       - save_cache:
           paths:
             - ~/.gradle
+            - ~/build
           key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # run jar!
-      - run: ./gradlew compileJava --info --no-daemon
 
   test:
     docker:
@@ -70,13 +71,14 @@ jobs:
 
       - run: ./gradlew dependencies --no-daemon
 
+      # run test report
+      - run: ./gradlew test jacocoTestReport coveralls --info --no-daemon
+
       - save_cache:
           paths:
             - ~/.gradle
+            - ~/build
           key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # run test report
-      - run: ./gradlew test jacocoTestReport coveralls --info --no-daemon
 
   jar:
     docker:
@@ -107,13 +109,14 @@ jobs:
 
       - run: ./gradlew dependencies --no-daemon
 
+      # run jar
+      - run: ./gradlew jar --info --no-daemon
+
       - save_cache:
           paths:
             - ~/.gradle
+            - ~/build
           key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # run jar
-      - run: ./gradlew jar --info --no-daemon
 
 
 workflows:
