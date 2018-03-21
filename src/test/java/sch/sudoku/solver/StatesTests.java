@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(TimingExtension.class)
 public class StatesTests {
-    static Integer[] state_1 = {
+    private static Integer[] state_1 = {
             6, 2, null, 8, 9, 4, 1, 7, 3,
             3, 1, 4, 6, null, null, null, null, 9,
             null, null, null, null, null, 5, null, null, null,
@@ -24,7 +24,7 @@ public class StatesTests {
             8, 3, 7, 9, 6, 1, null, 2, 4
     };
 
-    static Integer[] state_99 = {
+    private static Integer[] state_99 = {
             7, null, null, null, null, null, 5, 6, null,
             null, null, null, 7, null, null, null, null, null,
             9, null, null, null, 6, 1, 3, null, null,
@@ -36,7 +36,7 @@ public class StatesTests {
             null, 2, 4, null, null, null, null, null, 9
     };
 
-    static Integer[] state_100 = {
+    private static Integer[] state_100 = {
             null, null, null, 5, null, 4, null, 9, null,
             1, null, 6, null, null, 8, null, null, null,
             null, 7, null, null, 1, null, null, 8, null,
@@ -48,7 +48,7 @@ public class StatesTests {
             null, 1, null, 4, null, 5, null, null, null
     };
 
-    static Integer[] state_101 = {
+    private static Integer[] state_101 = {
             6, null, 3, null, null, 8, null, 7, null,
             null, null, 1, 7, null, null, null, null, 8,
             null, null, null, 5, null, null, 1, 6, null,
@@ -60,7 +60,7 @@ public class StatesTests {
             null, 1, null, 4, null, null, 5, null, 7
     };
 
-    static Integer[] state_xxx = {
+    private static Integer[] state_xxx = {
             2, null, null, null, 7, null, 1, null, null,
             null, null, 3, null, null, 4, null, 8, null,
             null, null, 1, null, null, 2, null, null, 3,

@@ -2,38 +2,38 @@ package sch.sudoku.model;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Setter;
 
 import java.util.*;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
-@lombok.Value
+@Data
 public class Model {
     private final Integer [] model;
 
     private final Deque<Command> commands = Lists.newLinkedList();
-    private final List<View> views;
-    private final boolean[] isValid = { true };
+    private final List<? extends View> views;
+    @Setter(AccessLevel.PROTECTED)
+    private boolean isValid = true ;
 
     @Builder
     public Model(Integer [] model, boolean diagonals) {
         if (Objects.requireNonNull(model, "model is null").length != 81) {
             throw new IllegalArgumentException("model size doesn't fit to expectation: 81");
         }
-        for (Integer i : model) {
-            if (null != i && (i < 1 || i > 9)) {
-                throw new IllegalArgumentException("Invalid value in model: " + i);
-            }
-        }
+        Stream.of(model)
+                .filter(Objects::nonNull)
+                .mapToInt(Integer::intValue)
+                .filter(i -> i < 1 || 9 < i)
+                .findAny()
+                .ifPresent(i -> { throw new IllegalArgumentException("Invalid value in model: " + i); });
         this.model = model;
         views = Collections.unmodifiableList(createViews(diagonals));
     }
-
-    public Model(Integer [] model) {
-        this(model, false);
-    }
-
-    public boolean isValid() { return isValid[0]; }
 
     private List<View> createViews(boolean diagonals) {
         Set<View> columns = new LinkedHashSet<>();
@@ -91,6 +91,9 @@ public class Model {
         if (value < 1 || 9 < value) {
             throw new IllegalArgumentException("value: " + value);
         }
+        if (this != view.getModel()) {
+            throw new IllegalStateException("The given view does not belong to this model.");
+        }
         Command command = Command.builder()
                 .model(this)
                 .view(view)
@@ -130,7 +133,7 @@ public class Model {
         private final int newValue;
         private final View view;
 
-        void execute() {
+        private void execute() {
             model.model[index] = newValue;
             updateValidity();
         }
@@ -138,10 +141,10 @@ public class Model {
         private void updateValidity() {
             boolean valid = view.getSiblings().stream().allMatch(View::isValid);
             valid &= view.isValid();
-            model.isValid[0] = valid;
+            model.setValid(valid);
         }
 
-        void undo() {
+        private void undo() {
             model.model[index] = oldValue;
             updateValidity();
         }
@@ -150,33 +153,33 @@ public class Model {
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder();
-        addRowSeparator(b, 0);
-        for (int i=0; i<9; ) {
-            addColumnSeparator(b, 0);
-            for (int j=0; j<9; ) {
+        b.append(getRowSeparator(0));
+        for (int i = 0; i < 9; ) {
+            b.append(getColumnSeparator(0));
+            for (int j = 0; j < 9; ) {
                 Integer x = getModel()[9 * i + j];
                 b.append(null == x ? "   " : " " + x + " ");
-                addColumnSeparator(b, ++j);
+                b.append(getColumnSeparator(++j));
             }
             b.append('\n');
-            addRowSeparator(b, ++i);
+            b.append(getRowSeparator(++i));
         }
         return b.toString();
     }
 
-    private void addColumnSeparator(StringBuilder b, int index) {
-        if (index % 3 == 0) {
-            b.append('H');
+    private char getColumnSeparator(int index) {
+        if (0 == index % 3) {
+            return 'H';
         } else {
-            b.append('|');
+            return '|';
         }
     }
 
-    private void addRowSeparator(StringBuilder b, int index) {
-        if (index % 3 == 0) {
-            b.append("+===+===+===*===+===+===*===+===+===+\n");
+    private String getRowSeparator(int index) {
+        if (0 == index % 3) {
+            return "+===+===+===*===+===+===*===+===+===+\n";
         } else {
-            b.append("+---+---+---*---+---+---*---+---+---+\n");
+            return "+---+---+---*---+---+---*---+---+---+\n";
         }
     }
 }

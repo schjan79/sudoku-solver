@@ -1,7 +1,6 @@
 package sch.sudoku.model;
 
 import com.google.common.collect.Lists;
-import lombok.Data;
 import lombok.experimental.NonFinal;
 
 import java.util.Collection;
