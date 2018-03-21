@@ -1,5 +1,9 @@
 package sch.sudoku.solver;
 
+import sch.sudoku.model.Model;
+import sch.sudoku.model.Value;
+import sch.sudoku.model.View;
+
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
