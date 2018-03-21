@@ -41,5 +41,9 @@ jobs:
       # run tests!
       - run: ./gradlew test --info --no-daemon
 
+      # run test report
+      - run: ./gradlew test jacocoTestReport coveralls --info --no-daemon
+
+
 
 
