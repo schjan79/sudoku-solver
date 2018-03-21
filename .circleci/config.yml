@@ -33,14 +33,13 @@ jobs:
 
       - run: ./gradlew dependencies --no-daemon
 
-      # run compileJava!
-      - run: ./gradlew compileJava --info --no-daemon
-
       - save_cache:
           paths:
             - ~/.gradle
-            - ~/build
           key: v1-dependencies-{{ checksum "build.gradle" }}
+
+      # run compileJava!
+      - run: ./gradlew compileJava --info --no-daemon
 
   test:
     docker:
@@ -71,15 +70,18 @@ jobs:
 
       - run: ./gradlew dependencies --no-daemon
 
-      # run test report
-      - run: ./gradlew test jacocoTestReport coveralls --info --no-daemon
-
       - save_cache:
           paths:
             - ~/.gradle
-            - ~/build
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      # run test report
+      - run: ./gradlew test jacocoTestReport coveralls --info --no-daemon
+
+      - store_test_results:
+          path: build/test-results
+      - store_artifacts:
+          path: build/test-results
   jar:
     docker:
       # specify the version you desire here
@@ -109,15 +111,17 @@ jobs:
 
       - run: ./gradlew dependencies --no-daemon
 
-      # run jar
-      - run: ./gradlew jar --info --no-daemon
-
       - save_cache:
           paths:
             - ~/.gradle
             - ~/build
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      # run jar
+      - run: ./gradlew jar --info --no-daemon
+
+      - store_artifacts:
+          path: build/libs
 
 workflows:
   version: 2
