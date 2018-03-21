@@ -129,6 +129,7 @@ workflows:
     jobs:
       - build
       - test:
+          context: propertyStore
           requires:
             - build
       - jar:

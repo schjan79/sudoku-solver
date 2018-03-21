@@ -11,7 +11,7 @@ buildscript {
 plugins {
     id 'java'
     id 'jacoco'
-    id 'com.github.kt3k.coveralls' version '2.6.3'
+    id 'com.github.kt3k.coveralls' version '2.8.2'
 }
 
 group 'sch'
@@ -73,6 +73,10 @@ tasks.withType(JavaExec) {
             jvmArgs "-javaagent:${configurations.testAgent.singleFile}=destfile=${project.buildDir.name}/jacoco/test.exec"
         }
     }
+}
+
+tasks.coveralls {
+    dependsOn 'check'
 }
 
 dependencies {
